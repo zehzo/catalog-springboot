@@ -1,6 +1,7 @@
 package com.api.catalog.catalogspringboot.servicos;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -22,4 +23,12 @@ public class CategoriaServico {
 
 		return lista.stream().map(x -> new CategoriaDto(x)).toList();
 	}
+
+	@Transactional(readOnly = true)
+	public CategoriaDto findById(Long id) {
+		Optional<Categoria> obj = repositorio.findById(id);
+		Categoria entity = obj.get();
+		return new CategoriaDto(entity);
+	}
+
 }
