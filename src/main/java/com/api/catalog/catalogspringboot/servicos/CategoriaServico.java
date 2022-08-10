@@ -10,6 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.api.catalog.catalogspringboot.dtos.CategoriaDto;
 import com.api.catalog.catalogspringboot.entidades.Categoria;
 import com.api.catalog.catalogspringboot.repositorios.CategoriaRepositorio;
+import com.api.catalog.catalogspringboot.servicos.excecoes.EntidadeNaoEncontradaExcessao;
 
 @Service
 public class CategoriaServico {
@@ -27,7 +28,7 @@ public class CategoriaServico {
 	@Transactional(readOnly = true)
 	public CategoriaDto findById(Long id) {
 		Optional<Categoria> obj = repositorio.findById(id);
-		Categoria entity = obj.get();
+		Categoria entity = obj.orElseThrow(() -> new EntidadeNaoEncontradaExcessao("Entidade não encontrada"));
 		return new CategoriaDto(entity);
 	}
 
